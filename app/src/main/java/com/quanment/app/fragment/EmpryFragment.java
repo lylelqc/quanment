@@ -41,4 +41,9 @@ public class EmpryFragment extends BaseFragment {
     protected boolean isBindEventBusHere() {
         return false;
     }
+
+    @Override
+    protected void initImmersionBar() {
+
+    }
 }

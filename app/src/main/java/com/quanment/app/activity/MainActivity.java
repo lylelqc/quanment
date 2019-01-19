@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.quanment.app.R;
+import com.quanment.app.fragment.ClassifyFragment;
 import com.quanment.app.fragment.EmpryFragment;
 import com.quanment.app.fragment.HomeFragment;
 
@@ -25,10 +26,10 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.ll_home)
     LinearLayout llHome;
-    @BindView(R.id.ll_tuoguan)
-    LinearLayout llTuoguan;
-    @BindView(R.id.ll_jiwei)
-    LinearLayout llJiwei;
+    @BindView(R.id.ll_classify)
+    LinearLayout llClassify;
+    @BindView(R.id.ll_message)
+    LinearLayout llMessage;
     @BindView(R.id.ll_mine)
     LinearLayout llMine;
     @BindView(R.id.main_bottomtab_layout)
@@ -36,15 +37,15 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.vpager)
     ViewPager vpager;
     private MainFragmentAdapter mAdapter;
-    public final String[] tabCount = new String[]{"首页", "发布", "消息", "我的"};
+    public final String[] tabCount = new String[]{"首页", "分类", "消息", "我的"};
 
     private static final String STATUS_KEY = "status";
 
     public static final String HOME ="1";
-    public static final String PUBLISH ="2";
+    public static final String CLASSIFY ="2";
     public static final String MESSAGE ="3";
     public static final String MINE ="4";
-    private static final String[] STATUS={HOME,PUBLISH,MESSAGE,MINE};
+    private static final String[] STATUS={HOME,CLASSIFY,MESSAGE,MINE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +71,8 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
-
+    protected boolean isBindEventBusHere() {
+        return true;
     }
 
     private void setupViews() {
@@ -86,34 +87,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                ImmersionBar immersionBar = ImmersionBar.with(MainActivity.this);
-                switch (position) {
-                    case 0:
-                        immersionBar.statusBarDarkFont(false)
-                                .keyboardEnable(true)
-                                .navigationBarColor(R.color.colorPrimary)
-                                .titleBarMarginTop(R.id.status_view)
-                                .init();
-                        break;
-                    case 1:
-                        immersionBar.statusBarDarkFont(true)
-                                .keyboardEnable(true)
-                                .navigationBarColor(R.color.colorPrimary)
-                                .init();
-                        break;
-                    case 2:
-                        immersionBar.statusBarDarkFont(false)
-                                .keyboardEnable(true)
-                                .navigationBarColor(R.color.colorPrimary)
-                                .init();
-                        break;
-                    case 3:
-                        immersionBar.statusBarDarkFont(true)
-                                .keyboardEnable(true)
-                                .navigationBarColor(R.color.colorPrimary)
-                                .init();
-                        break;
-                }
+
             }
 
             @Override
@@ -139,24 +113,24 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_home, R.id.ll_tuoguan, R.id.ll_jiwei, R.id.ll_mine})
+    @OnClick({R.id.ll_home, R.id.ll_classify, R.id.ll_message, R.id.ll_mine})
     public void onClcik(View view) {
         switch (view.getId()) {
             case R.id.ll_home:
                 vpager.setCurrentItem(0);
                 tabSelected(llHome);
                 break;
-            case R.id.ll_tuoguan:
+            case R.id.ll_classify:
 //                if (LoginMsgHelper.isLogin(mContext)) {
                     vpager.setCurrentItem(1);
-                    tabSelected(llTuoguan);
+                    tabSelected(llClassify);
 //                } else {
 //                    CommonUtil2.goActivity(mContext, LoginActivity.class);
 //                }
                 break;
-            case R.id.ll_jiwei:
+            case R.id.ll_message:
                 vpager.setCurrentItem(2);
-                tabSelected(llJiwei);
+                tabSelected(llMessage);
                 break;
             case R.id.ll_mine:
                 vpager.setCurrentItem(3);
@@ -167,10 +141,23 @@ public class MainActivity extends BaseActivity {
 
     private void tabSelected(LinearLayout linearLayout) {
         llHome.setSelected(false);
-        llTuoguan.setSelected(false);
-        llJiwei.setSelected(false);
+        llClassify.setSelected(false);
+        llMessage.setSelected(false);
         llMine.setSelected(false);
         linearLayout.setSelected(true);
+    }
+
+    public void setTabSelect(int index){
+        vpager.setCurrentItem(index);
+        if(index == 0){
+            tabSelected(llHome);
+        }else if(index == 1){
+            tabSelected(llClassify);
+        }else if(index == 2){
+            tabSelected(llMessage);
+        }else{
+            tabSelected(llMine);
+        }
     }
 
     public class MainFragmentAdapter extends FragmentPagerAdapter {
@@ -188,7 +175,7 @@ public class MainActivity extends BaseActivity {
             if (position == 0) {
                 return HomeFragment.newInstance(tabCount[position % tabCount.length]);
             } else if (position == 1) {
-                return EmpryFragment.newInstance(tabCount[position % tabCount.length]);
+                return ClassifyFragment.newInstance(tabCount[position % tabCount.length]);
             } else if (position == 2) {
                 return EmpryFragment.newInstance(tabCount[position % tabCount.length]);
             } else {
@@ -215,7 +202,7 @@ public class MainActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.tips_exit), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
 
             } else {

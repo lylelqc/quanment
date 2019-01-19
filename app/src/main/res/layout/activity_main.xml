@@ -3,21 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/status_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimary" />
-
     <LinearLayout
         android:id="@+id/main_bottomtab_layout"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="47dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="3dp"
-        android:background="@color/app_red">
+        android:gravity="center_vertical"
+        android:background="@color/app_bottom_color">
 
         <LinearLayout
             android:id="@+id/ll_home"
@@ -36,14 +29,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:text="首页"
                 android:textColor="@color/app_white"
                 android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_tuoguan"
+            android:id="@+id/ll_classify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -59,14 +51,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="发布"
+                android:text="分类"
                 android:textColor="@color/app_white"
                 android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_jiwei"
+            android:id="@+id/ll_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -82,7 +73,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:text="消息"
                 android:textColor="@color/app_white"
                 android:textSize="12sp" />
@@ -105,7 +95,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:text="我的"
                 android:textColor="@color/app_white"
                 android:textSize="12sp" />

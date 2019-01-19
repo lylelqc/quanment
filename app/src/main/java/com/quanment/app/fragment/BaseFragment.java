@@ -5,14 +5,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gyf.barlibrary.BarHide;
@@ -52,14 +48,6 @@ public abstract class BaseFragment extends Fragment implements BaseUi, IPageStat
     private boolean isFirstInvisible = true;
     private boolean isPrepared;
 
-    private ImageView pageStatusIconIv;
-    private TextView pageStatusTextTv;
-
-    private CardView refreshAgainBtn;
-    private TextView refreshAgainTv;
-
-    protected SwipeRefreshLayout swipeRefreshLayout;
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -75,7 +63,7 @@ public abstract class BaseFragment extends Fragment implements BaseUi, IPageStat
         }
         if(isShowBar()){
             try {
-                ImmersionBar.with(this).init();
+                initImmersionBar();
             }catch (Exception e){
 
             }
@@ -102,6 +90,7 @@ public abstract class BaseFragment extends Fragment implements BaseUi, IPageStat
         mScreenDensity = displayMetrics.density;
         mScreenHeight = displayMetrics.heightPixels;
         mScreenWidth = displayMetrics.widthPixels;
+
 
 
         initViewsAndEvents();
@@ -235,6 +224,11 @@ public abstract class BaseFragment extends Fragment implements BaseUi, IPageStat
      */
     protected abstract boolean isBindEventBusHere();
 
+    /**
+     * 初始化沉浸式操作
+     */
+    protected abstract void initImmersionBar();
+
     @Override
     public void showToastLong(String msg) {
 
@@ -269,28 +263,6 @@ public abstract class BaseFragment extends Fragment implements BaseUi, IPageStat
             mToast.setDuration(duration);
         }
         mToast.show();
-    }
-
-    public void showLoginRetry(String message) {
-        if (null != pageStatusTextTv) {
-            pageStatusTextTv.setVisibility(View.VISIBLE);
-            pageStatusTextTv.setText(message);
-        }
-
-        if(null != refreshAgainBtn){
-            refreshAgainBtn.setVisibility(View.VISIBLE);
-            refreshAgainTv.setText("立即登录");
-            refreshAgainBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    dimissRefreshRetry();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putBoolean(LoginActivity.IS_NEED_GOTO_HOME,false);
-//                    CommonUtils.goActivity(mContext, .class,null,false);
-
-                }
-            });
-        }
     }
 
     /**

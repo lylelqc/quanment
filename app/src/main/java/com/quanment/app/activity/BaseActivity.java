@@ -1,13 +1,10 @@
 package com.quanment.app.activity;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,15 +12,17 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.quanment.app.model.PostResult;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import de.greenrobot.event.EventBus;
 
 /**
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private long lastBackKeyDownTick = 0;
+
     public static final long MAX_DOUBLE_BACK_DURATION = 2000;
 //    protected LoadingDialog loadingDialog;//加载中
     protected Context mContext;
@@ -57,13 +56,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         initBase();
         initData();
         initView();
-        setListener();
+//        setListener();
     }
 
     private void initBase() {
         /**检测app版本**/
 //        Beta.checkUpgrade(false, true);
         /**多状态布局*/
+        if (isBindEventBusHere()) {
+            EventBus.getDefault().register(this);
+        }
         initBaseLayout();
         if (isCheckNetState())
 //            checkNetState(this, R.layout.layout_net_error);
@@ -73,26 +75,29 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        bindService(bindIntent, connection, BIND_AUTO_CREATE);
     }
 
-    protected abstract void initData();
-
     protected abstract int setLayoutId();
+
+    protected abstract void initData();
 
     protected abstract void initView();
 
-    protected abstract void setListener();
-
-    /***
-     * 用于在初始化View之前做一些事
-     */
-    protected final void init() {
-//        FontsManager.initFormAssets(mContext, "fonts/test.ttf");
-//        FontsManager.changeFonts(this);
-    }
+//    protected abstract void setListener();
 
     protected <T extends View> T $(int id) {
         return (T) super.findViewById(id);
     }
 
+    /**
+     * 是否绑定eventBus
+     */
+    protected abstract boolean isBindEventBusHere();
+
+    /**
+     * 接受EventBus 广播
+     */
+    public void onEvent(PostResult postResult) {
+
+    }
 
     /**
      * startActivity
@@ -125,20 +130,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        long currentTick = System.currentTimeMillis();
-        if (currentTick - lastBackKeyDownTick > MAX_DOUBLE_BACK_DURATION) {
-//            ToastUtils.showToast("再按一次退出");
-            lastBackKeyDownTick = currentTick;
-        } else {
-            finish();
-            System.exit(0);
-        }
-    }
-
     /**
      * @param mContext
      */
@@ -160,6 +151,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         dismissProgressDialog();
         unbinder.unbind();
+
+        if (isBindEventBusHere()) {
+            EventBus.getDefault().unregister(this);
+        }
         if (mImmersionBar != null)
             mImmersionBar.destroy();  //在BaseActivity里销毁
 //        unbindService(connection);// 解除绑定，断开连接
@@ -224,8 +219,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void initImmersionBar() {
         //在BaseActivity里初始化
         mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.init();
-
+//        mImmersionBar.init();
     }
 
     /**

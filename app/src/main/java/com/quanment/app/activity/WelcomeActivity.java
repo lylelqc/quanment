@@ -5,13 +5,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.view.WindowManager;
 
 import com.quanment.app.R;
+import com.quanment.app.utils.ToastUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class WelcomeActivity extends BaseActivity {
+
+    private long lastBackKeyDownTick = 0;
+
     private SharedPreferences sharepreferences;//实例化 SharedPreferences
     private SharedPreferences.Editor editor;
 
@@ -19,7 +24,7 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void initImmersionBar() {
         super.initImmersionBar();
-        mImmersionBar.init();
+        mImmersionBar.transparentBar().init();
     }
 
     @Override
@@ -28,17 +33,12 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
-
-    }
-
-    @Override
     protected int setLayoutId() {
         return R.layout.activity_welcome;
     }
 
     @Override
-    protected void initView() {
+    protected void initData() {
         sharepreferences = this.getSharedPreferences("check", MODE_PRIVATE);// 初始化 SharedPreferences 储存
         editor = sharepreferences.edit();
         proInspect(this);
@@ -47,8 +47,15 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    protected void initView() {
+        //全屏显示
+        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
+                WindowManager.LayoutParams. FLAG_FULLSCREEN);
+    }
 
+    @Override
+    protected boolean isBindEventBusHere() {
+        return false;
     }
 
     /**
@@ -125,5 +132,16 @@ public class WelcomeActivity extends BaseActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        long currentTick = System.currentTimeMillis();
+        if (currentTick - lastBackKeyDownTick > MAX_DOUBLE_BACK_DURATION) {
+            ToastUtils.showToast(getString(R.string.tips_exit));
+            lastBackKeyDownTick = currentTick;
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
 }

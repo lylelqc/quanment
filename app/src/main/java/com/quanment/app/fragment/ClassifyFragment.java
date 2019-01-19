@@ -1,35 +1,27 @@
 package com.quanment.app.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.gyf.barlibrary.ImmersionBar;
-import com.quanment.app.EventBusTags;
 import com.quanment.app.R;
 import com.quanment.app.activity.BusinessListActivity;
-import com.quanment.app.activity.MainActivity;
-import com.quanment.app.model.PostResult;
-import com.quanment.app.utils.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
-public class HomeFragment extends BaseFragment{
+public class ClassifyFragment extends BaseFragment {
 
-    @BindView(R.id.ll_home_on_sale)
-    LinearLayout llHomeOnSale;
-    @BindView(R.id.ll_home_shoujiweixiu)
-    LinearLayout llHomeMobileRepair;
-    @BindView(R.id.ll_home_more)
-    LinearLayout llHomeMore;
+    @BindView(R.id.ll_classify_zhusu)
+    LinearLayout mClassifyZhusu;
+    @BindView(R.id.ll_classify_shoujiweixiu)
+    LinearLayout mClassifyMobileRepair;
 
     public static String mContent = "???";
 
-    public static HomeFragment newInstance(String content) {
-        HomeFragment fragment = new HomeFragment();
+    public static ClassifyFragment newInstance(String content) {
+        ClassifyFragment fragment = new ClassifyFragment();
         fragment.mContent = content;
         return fragment;
     }
@@ -56,7 +48,7 @@ public class HomeFragment extends BaseFragment{
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.fragment_home ;
+        return R.layout.fragment_classify;
     }
 
     @Override
@@ -71,15 +63,12 @@ public class HomeFragment extends BaseFragment{
                 .navigationBarColor(R.color.colorPrimary).init();
     }
 
-    @OnClick({R.id.ll_home_more, R.id.ll_home_on_sale, R.id.ll_home_shoujiweixiu})
+
+    @OnClick({R.id.ll_classify_zhusu, R.id.ll_classify_shoujiweixiu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ll_home_more:
-//                EventBus.getDefault().post(new PostResult(EventBusTags.SELECET_CLASSIFY));
-                // 跳转分类页面
-                ((MainActivity)mContext).setTabSelect(1);
-                break;
-            case R.id.ll_home_shoujiweixiu:
+            case R.id.ll_classify_zhusu:
+            case R.id.ll_classify_shoujiweixiu:
                 Intent intent = new Intent(mContext, BusinessListActivity.class);
                 startActivity(intent);
                 break;
