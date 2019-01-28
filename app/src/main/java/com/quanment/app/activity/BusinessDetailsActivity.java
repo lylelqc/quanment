@@ -1,13 +1,19 @@
 package com.quanment.app.activity;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.quanment.app.R;
+import com.quanment.app.utils.StatusBarUtils;
 import com.quanment.app.view.FadingScrollView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -22,6 +28,8 @@ import butterknife.OnClick;
 
 public class BusinessDetailsActivity extends BaseActivity {
 
+    @BindView(R.id.toobar)
+    FrameLayout mToobar;
     @BindView(R.id.btn_main_back)
     LinearLayout mBack;
     @BindView(R.id.tv_main_title)
@@ -52,9 +60,11 @@ public class BusinessDetailsActivity extends BaseActivity {
     @Override
     protected void initView() {
         mTitle.setText(getString(R.string.business_details));
-        mImmersionBar.statusBarColor(R.color.app_bottom_color)
-                .titleBar(banner)
-                .init();
+        StatusBarUtils.setStatusBarColor(this, R.color.app_bottom_color);
+
+//        mImmersionBar.statusBarColor(R.color.app_bottom_color);
+//                .titleBar(mToobar)
+//                .init();
 
         layout.setAlpha(0);
         fadingScrollView.setFadingView(layout);

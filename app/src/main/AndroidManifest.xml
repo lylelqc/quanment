@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.quanment.app">
 
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- if you want to load images from a file OR from the internet -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -15,6 +15,20 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 适配全面屏 -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+        <!-- 适配华为(hua wei)刘海屏 -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+        <!-- 适配小米(xiao mi)刘海屏 -->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+
         <activity android:name="com.quanment.app.activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +37,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activity.BusinessListActivity" />
-        <activity android:name=".activity.BusinessDetailsActivity" />
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity android:name=".activity.BusinessListActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity android:name=".activity.BusinessDetailsActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

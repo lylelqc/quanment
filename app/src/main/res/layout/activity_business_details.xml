@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,7 +8,7 @@
         android:id="@+id/fading_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="45dp"
         android:scrollbars="none"
         android:overScrollMode="never">
 
@@ -20,7 +20,9 @@
             <com.youth.banner.Banner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"></com.youth.banner.Banner>
+                android:layout_height="200dp"
+				android:fitsSystemWindows="true">
+            </com.youth.banner.Banner>
 
             <View
                 android:layout_width="match_parent"
@@ -507,7 +509,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:background="@color/app_bottom_color">
 
         <RelativeLayout
@@ -549,8 +551,9 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/toobar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="45dp"
         android:background="@android:color/transparent">
 
         <View
@@ -561,8 +564,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="25dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/btn_main_back"
@@ -616,4 +618,4 @@
         </RelativeLayout>
     </FrameLayout>
 
-</RelativeLayout>
+</FrameLayout>
