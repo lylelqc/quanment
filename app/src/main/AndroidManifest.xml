@@ -48,6 +48,15 @@
         <activity android:name=".activity.BusinessDetailsActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
             android:windowSoftInputMode="adjustResize"/>
+
+        <activity android:name=".activity.LoginActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity android:name=".activity.ChatDetailsActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
+
     </application>
 
 </manifest>

@@ -38,13 +38,26 @@ public class BusinessListActivity extends BaseActivity implements BusinessListRe
 
     @Override
     protected void initData() {
-        for(int i = 0; i< 4; i++){
-            BusinessListBean bean = new BusinessListBean();
-            bean.setBusinessName("广州国际休闲旅游酒店"+(i+1));
-            bean.setBusinessDistance((100*(i+1))+"");
-            bean.setBusinessPrices((50*(i+1))+"");
-            bean.setBusinessSaleCount((50*i+100)+"");
-            mResultList.add(bean);
+        String type = getIntent().getExtras().getString("type");
+
+        if(type.equals("hotel")){
+            for(int i = 0; i< 4; i++){
+                BusinessListBean bean = new BusinessListBean();
+                bean.setBusinessName("广州国际休闲旅游酒店"+(i+1));
+                bean.setBusinessDistance((100*(i+1))+"");
+                bean.setBusinessPrices((50*(i+1))+"");
+                bean.setBusinessSaleCount((50*i+100)+"");
+                mResultList.add(bean);
+            }
+        }else{
+            for(int i = 0; i< 3; i++){
+                BusinessListBean bean = new BusinessListBean();
+                bean.setBusinessName("******");
+                bean.setBusinessDistance("0");
+                bean.setBusinessPrices("0.0");
+                bean.setBusinessSaleCount("0");
+                mResultList.add(bean);
+            }
         }
 
         refreshListView();

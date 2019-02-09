@@ -1,12 +1,14 @@
 package com.quanment.app.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.quanment.app.R;
 import com.quanment.app.activity.BusinessListActivity;
+import com.quanment.app.utils.AppUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -129,10 +131,10 @@ public class ClassifyFragment extends BaseFragment {
             R.id.ll_classify_menchuangzhizuo, R.id.ll_classify_kuaidi, R.id.ll_classify_wuliu,
             R.id.ll_classify_hunshasheying, R.id.ll_classify_qichebaoyang, R.id.ll_classify_gongshangzhuce})
     public void onViewClicked(View view) {
-        Intent intent = null;
+        Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.ll_classify_zhusu:
-                intent = new Intent(mContext, BusinessListActivity.class);
+                bundle.putString("type", "hotel");
                 break;
             case R.id.ll_classify_jianshen:
             case R.id.ll_classify_meifa:
@@ -163,12 +165,11 @@ public class ClassifyFragment extends BaseFragment {
             case R.id.ll_classify_hunshasheying:
             case R.id.ll_classify_qichebaoyang:
             case R.id.ll_classify_gongshangzhuce:
-                intent = new Intent(mContext, BusinessListActivity.class);
+                bundle.putString("type", "null");
                 break;
         }
 
-        if(intent != null){
-            startActivity(intent);
-        }
+        AppUtils.goActivity(mContext, BusinessListActivity.class, bundle);
+
     }
 }

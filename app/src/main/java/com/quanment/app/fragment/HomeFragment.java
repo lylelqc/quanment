@@ -2,6 +2,7 @@ package com.quanment.app.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -9,8 +10,10 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.quanment.app.EventBusTags;
 import com.quanment.app.R;
 import com.quanment.app.activity.BusinessListActivity;
+import com.quanment.app.activity.LoginActivity;
 import com.quanment.app.activity.MainActivity;
 import com.quanment.app.model.PostResult;
+import com.quanment.app.utils.AppUtils;
 import com.quanment.app.utils.ToastUtils;
 
 import butterknife.BindView;
@@ -18,6 +21,9 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 public class HomeFragment extends BaseFragment{
+
+    @BindView(R.id.ll_home_scan)
+    LinearLayout mHomeScan;
 
     @BindView(R.id.ll_home_zhusu)
     LinearLayout mHomeHotel;
@@ -65,6 +71,7 @@ public class HomeFragment extends BaseFragment{
     LinearLayout mHomeOnSale;
 
     public static String mContent = "???";
+    private boolean isBusiness = true;
 
     public static HomeFragment newInstance(String content) {
         HomeFragment fragment = new HomeFragment();
@@ -107,7 +114,8 @@ public class HomeFragment extends BaseFragment{
         ImmersionBar.with(this).keyboardEnable(true).init();
     }
 
-    @OnClick({R.id.ll_home_zhusu, R.id.ll_home_jianshen, R.id.ll_home_meifa,
+    @OnClick({R.id.ll_home_scan,
+            R.id.ll_home_zhusu, R.id.ll_home_jianshen, R.id.ll_home_meifa,
             R.id.ll_home_meirong, R.id.ll_home_meijia, R.id.ll_home_meishi,
             R.id.ll_home_yifu, R.id.ll_home_dayinpaizhao, R.id.ll_home_shoujimaimai,
             R.id.ll_home_xianhua, R.id.ll_home_shucai, R.id.ll_home_shuiguolei,
@@ -115,10 +123,15 @@ public class HomeFragment extends BaseFragment{
             R.id.ll_home_guanggaozhizuo, R.id.ll_home_peijukaisuo, R.id.ll_home_dianqiweixiu,
             R.id.ll_home_shoujiweixiu, R.id.ll_home_more, R.id.ll_home_on_sale})
     public void onViewClicked(View view) {
-        Intent intent = null;
+        Bundle bundle = new Bundle();
         switch (view.getId()) {
+            case R.id.ll_home_scan:
+                AppUtils.goActivity(mContext, LoginActivity.class, bundle);
+                isBusiness = false;
+                break;
             case R.id.ll_home_zhusu:
-                intent = new Intent(mContext, BusinessListActivity.class);
+                bundle.putString("type", "hotel");
+                isBusiness = true;
                 break;
             case R.id.ll_home_jianshen:
             case R.id.ll_home_meifa:
@@ -138,16 +151,20 @@ public class HomeFragment extends BaseFragment{
             case R.id.ll_home_peijukaisuo:
             case R.id.ll_home_dianqiweixiu:
             case R.id.ll_home_shoujiweixiu:
-                intent = new Intent(mContext, BusinessListActivity.class);
+                bundle.putString("type", "null");
+                isBusiness = true;
                 break;
             case R.id.ll_home_more:
 //                EventBus.getDefault().post(new PostResult(EventBusTags.SELECET_CLASSIFY));
                 // 跳转分类页面
                 ((MainActivity)mContext).setTabSelect(1);
+                isBusiness = false;
                 break;
         }
-        if (intent != null) {
-            startActivity(intent);
+
+        if(isBusiness){
+            AppUtils.goActivity(mContext, BusinessListActivity.class, bundle);
         }
+
     }
 }

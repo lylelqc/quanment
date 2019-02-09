@@ -16,6 +16,7 @@ import com.quanment.app.R;
 import com.quanment.app.fragment.ClassifyFragment;
 import com.quanment.app.fragment.EmpryFragment;
 import com.quanment.app.fragment.HomeFragment;
+import com.quanment.app.fragment.NewsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,12 +47,6 @@ public class MainActivity extends BaseActivity {
     public static final String MESSAGE ="3";
     public static final String MINE ="4";
     private static final String[] STATUS={HOME,CLASSIFY,MESSAGE,MINE};
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     protected void initData() {
@@ -177,7 +172,7 @@ public class MainActivity extends BaseActivity {
             } else if (position == 1) {
                 return ClassifyFragment.newInstance(tabCount[position % tabCount.length]);
             } else if (position == 2) {
-                return EmpryFragment.newInstance(tabCount[position % tabCount.length]);
+                return NewsFragment.newInstance(tabCount[position % tabCount.length]);
             } else {
                 return EmpryFragment.newInstance(tabCount[position % tabCount.length]);
             }
